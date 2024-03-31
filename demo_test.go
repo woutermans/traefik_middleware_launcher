@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/traefik/plugindemo"
+	"github.com/woutermans/traefik_middleware_launcher"
 )
 
 func TestDemo(t *testing.T) {
