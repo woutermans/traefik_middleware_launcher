@@ -62,5 +62,7 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		req.Header.Set(key, writer.String())
 	}
 
+	println(req.Host)
+
 	a.next.ServeHTTP(rw, req)
 }
