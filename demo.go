@@ -2,11 +2,12 @@
 package traefik_middleware_launcher
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"net/http"
+    "os/exec"
 	"text/template"
+    "log"
 )
 
 // Config the plugin configuration.
@@ -44,25 +45,16 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	for key, value := range a.headers {
-		tmpl, err := a.template.Parse(value)
-		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	
+	cmd := exec.Command("/etc/traefik/test_program")
 
-		writer := &bytes.Buffer{}
+	output, err := cmd.CombinedOutput()
+    if err != nil {
+        log.Fatalf("Error executing command: %v", err)
+    }
 
-		err = tmpl.Execute(writer, req)
-		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		req.Header.Set(key, writer.String())
-	}
-
-	println(req.Host)
+    // Print the output
+    fmt.Printf("Output: %s\n", output)
 
 	a.next.ServeHTTP(rw, req)
 }
