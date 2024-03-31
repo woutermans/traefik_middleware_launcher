@@ -1,6 +1,5 @@
 displayName: Demo Plugin
 type: middleware
-iconPath: .assets/icon.png
 
 import: github.com/woutermans/traefik_middleware_launcher
 
